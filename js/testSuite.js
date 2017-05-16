@@ -36,7 +36,7 @@ define(function () {
 							el.innerHTML = '';
 						}
 
-						if (res && res.stack && res.message) {
+						if (res instanceof Error) {
 							el.innerHTML += '<div class="false">' + text + ': ' + res.message + '</div>';
 						} else {
 							var state = res && (res === true || stringify(res[0]) === stringify(res[1]));

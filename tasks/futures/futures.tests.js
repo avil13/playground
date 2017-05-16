@@ -10,7 +10,7 @@
 			reject();
 		});
 
-		setTimeout(reject, 1000);
+		setTimeout(reject.bind(null, 'Maximum execution time'), 1000);
 	},
 
 	"#2: bar.rejected": function (resolve, reject) {
@@ -25,6 +25,6 @@
 			resolve(["ok", val]);
 		});
 
-		setTimeout(reject, 1000);
+		setTimeout(reject.bind(null, 'Maximum execution time'), 1000);
 	}
 })
