@@ -42,7 +42,7 @@ define(['text!../tasks/tasks.json'], function (list) {
 					return 'text!' + path + '/' + name + '/' + name + ext;
 				}), this._onselect);
 			}
-			else if (name.charAt(0) === '!') {
+			else if (name && name.charAt(0) === '!') {
 				this._onselect(name.substr(1), '', [], true);
 			}
 		},
