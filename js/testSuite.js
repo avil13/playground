@@ -13,13 +13,19 @@ define(function () {
 
 				try {
 					if (fn.length > 0) {
-						res = new Promise(fn);
+						res = new Promise(function (resolve, reject) {
+							try {
+								fn(resolve, reject);
+							} catch (err) {
+								resolve(err);
+							}
+						});
 					}
 					else {
 						res = fn();
 					}
 				} catch (err) {
-//					console.log(err);
+					res = err;
 				}
 
 
@@ -30,15 +36,18 @@ define(function () {
 							el.innerHTML = '';
 						}
 
-						var state = !!(res && !res.stack && !res.message && (res === true || stringify(res[0]) == stringify(res[1])));
+						if (res && res.stack && res.message) {
+							el.innerHTML += '<div class="false">' + res.message + '</div>';
+						} else {
+							var state = res && !!(res === true || stringify(res[0]) == stringify(res[1]));
 
-						el.innerHTML += '<div class="' + state + '">'
-							+ text
-							+ ': ' + (res === true || (res && res.join && res.map(function (val) {
-								return val === null ? 'null' : stringify(val);
-							}).join(' === ')))
-							+ '</div>'
-						;
+							el.innerHTML += '<div class="' + state + '">'
+								+ text
+								+ ': ' + (res === true || (res && res.join && res.map(function (val) {
+									return val === null ? 'null' : stringify(val);
+								}).join(' === ')))
+								+ '</div>'
+						}
 					}
 				}
 

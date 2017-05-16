@@ -36,6 +36,11 @@ define(function (require) {
 	};
 
 
+	output.dir = function (value) {
+		this.append('pre', { text: JSON.stringify(value, null, 2), className: 'log' });
+	};
+
+
 	output.log = function () {
 		var text = $.map(arguments, function (val) {
 			return val && val.nodeType

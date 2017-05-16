@@ -9,6 +9,7 @@ define(function (require) {
 	var Sandbox = require('sandbox');
 	var debounce = require('debounce');
 	var email = require('email');
+	var lzString = require('lz-string');
 
 
 
@@ -27,8 +28,17 @@ define(function (require) {
 
 		this.restore();
 
-		tasks.onselect(function (code, html, tests) {
+		tasks.onselect(function (code, html, tests, fiddle) {
+			if (this.saving) {
+				return;
+			}
+
+			if (fiddle) {
+				code = lzString.decompress(code);
+			}
+
 			this.tests = tests;
+			this.fiddle = !!fiddle;
 			this.setCode(localStorage.getItem(this.getKey()) || code, html);
 		}.bind(this));
 
@@ -41,6 +51,7 @@ define(function (require) {
 	App.prototype = /** @lends App.prototype */ {
 		initEditor: function (id) {
 			var editor = ace.edit(id.substr(1));
+			var runTests = debounce(this.runTests.bind(this), 100);
 
 			editor.setTheme('ace/theme/xcode');
 			editor.getSession().setMode('ace/mode/javascript');
@@ -50,7 +61,8 @@ define(function (require) {
 
 				this.save();
 				this.exec(this.getCode());
-				this.runTests();
+
+				runTests();
 			}.bind(this), 500));
 
 			return editor;
@@ -83,11 +95,20 @@ define(function (require) {
 		},
 
 		restore: function () {
-			this.setCode(localStorage.getItem(this.getKey()) || '');
+			if (!this.fiddle) {
+				this.setCode(localStorage.getItem(this.getKey()) || '');
+			}
 		},
 
 		save: function () {
-			localStorage.setItem(this.getKey(), this.getCode());
+			var code = this.getCode();
+
+			if (this.fiddle) {
+				this.saving = true;
+				location.hash = '!' + lzString.compress(code);
+			} else {
+				localStorage.setItem(this.getKey(), code);
+			}
 		}
 	};
 

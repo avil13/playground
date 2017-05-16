@@ -84,9 +84,8 @@ define(function (require) {
 
 
 			try {
-				var document = this.document,
-					loops = []
-				;
+				var document = this.document;
+				var loops = [];
 
 				code = code.replace(/\b(for|while)\s*\(.*?\)\s*\{/g, function (begin) {
 					var loop = '___loop' + loops.length;

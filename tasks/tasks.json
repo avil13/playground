@@ -15,6 +15,10 @@
 		"name": "Найти min/max"
 	},
 
+	"get-range": {
+		"name": "Доработать функцию `getRange`"
+	},
+
 	"printnumbers": {
 		"name": "Вывод чисел в колонках"
 	},

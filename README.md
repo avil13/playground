@@ -1,4 +1,6 @@
-# Playground
+Playground
+----------
+JavaScript puzzles for the little ones.
 
 
 
@@ -6,6 +8,7 @@
  1. Create the folder `/tasks/funkymonkey/` (required files: `funkymonkey.js`, `funkymonkey.html` and `funkymonkey.tests.js`)
  2. Add an entry to `/tasks/tasks.json`
  3. Send pull request
+
 
 ---
 
@@ -26,9 +29,14 @@ console.log(funkymonkey());
 #### funkymonkey.html
 HTML coding
 
+```js
+<div>Wow!</div>
+```
+
 
 #### funkymonkey.tests.js
 Unit tests
+
 ```js
 ({
 	"#1.equal": function () {
@@ -39,10 +47,10 @@ Unit tests
 		return ".." === funkymonkey(); // ok
 	},
 
-	"#3.promise": function () {
-		return new Promise(resolve, reject) {
+	"#3.async": function (resolve) {
+		setTimeout(function () {
 			resolve(["..", funkymonkey()]); // equal
-		});
+		}, 3);
 	}
 })
 ```

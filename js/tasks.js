@@ -9,6 +9,8 @@ define(['text!../tasks/tasks.json'], function (list) {
 		init: function () {
 			var el = this.el = document.createElement('div');
 
+			this.el = el;
+
 			el.id = 'tasks';
 			el.innerHTML = Object.keys(tasks).map(function (name) {
 				var task = tasks[name];
@@ -26,13 +28,22 @@ define(['text!../tasks/tasks.json'], function (list) {
 			return this;
 		},
 
+		collapse: function () {
+			this.el.classList.add('collapse');
+		},
+
 		handleEvent: function () {
 			var name = location.toString().split('#')[1];
+
+			this.collapse();
 
 			if (tasks[name]) {
 				require('.js .html .tests.js'.split(' ').map(function (ext) {
 					return 'text!' + path + '/' + name + '/' + name + ext;
 				}), this._onselect);
+			}
+			else if (name.charAt(0) === '!') {
+				this._onselect(name.substr(1), '', [], true);
 			}
 		},
 

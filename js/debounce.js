@@ -1,5 +1,5 @@
 define(function () {
-	return function debounce(func, wait, immediate) {
+	return function debounce(func, delay, immediate) {
 		var timeout;
 
 		return function() {
@@ -13,7 +13,7 @@ define(function () {
 				if (!immediate) {
 					func.apply(context, args);
 				}
-			}, wait);
+			}, delay);
 
 			if (immediate && !timeout) {
 				func.apply(context, args);
