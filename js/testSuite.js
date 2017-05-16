@@ -36,10 +36,12 @@ define(function () {
 							el.innerHTML = '';
 						}
 
-						if (res instanceof Error) {
+						if (res == null || res === false) {
+							el.innerHTML += '<div class="false">' + text + ': ' + res + '</div>';
+						} else if (res && res.message != null && /Error/.test(res.name)) {
 							el.innerHTML += '<div class="false">' + text + ': ' + res.message + '</div>';
 						} else {
-							var state = res && (res === true || stringify(res[0]) === stringify(res[1]));
+							var state = (res === true || stringify(res[0]) === stringify(res[1]));
 
 							el.innerHTML += '<div class="' + state + '">'
 								+ text

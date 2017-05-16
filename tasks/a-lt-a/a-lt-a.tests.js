@@ -6,4 +6,4 @@
 	"a < a": function () {
 		return a < a;
 	}
-});
+})
