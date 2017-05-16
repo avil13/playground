@@ -35,8 +35,6 @@ define(['text!../tasks/tasks.json'], function (list) {
 		handleEvent: function () {
 			var name = location.toString().split('#')[1];
 
-			this.collapse();
-
 			if (tasks[name]) {
 				require('.js .html .tests.js'.split(' ').map(function (ext) {
 					return 'text!' + path + '/' + name + '/' + name + ext;

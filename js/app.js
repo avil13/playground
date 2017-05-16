@@ -37,6 +37,8 @@ define(function (require) {
 				code = lzString.decompress(code);
 			}
 
+			tasks.collapse();
+
 			this.tests = tests;
 			this.fiddle = !!fiddle;
 			this.setCode(localStorage.getItem(this.getKey()) || code, html);
