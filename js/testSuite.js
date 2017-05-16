@@ -37,9 +37,9 @@ define(function () {
 						}
 
 						if (res && res.stack && res.message) {
-							el.innerHTML += '<div class="false">' + res.message + '</div>';
+							el.innerHTML += '<div class="false">' + text + ': ' + res.message + '</div>';
 						} else {
-							var state = res && !!(res === true || stringify(res[0]) == stringify(res[1]));
+							var state = res && (res === true || stringify(res[0]) === stringify(res[1]));
 
 							el.innerHTML += '<div class="' + state + '">'
 								+ text
@@ -56,7 +56,9 @@ define(function () {
 				};
 
 				if (res && res.then) {
-					res.then(add, add);
+					res.then(add, function (err) {
+						add(err instanceof Error ? err : new Error(err));
+					});
 				} else {
 					add(res);
 				}

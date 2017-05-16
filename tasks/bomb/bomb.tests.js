@@ -7,8 +7,8 @@
 		XBomb.prototype = Object.create(Bomb.prototype);
 		XBomb.prototype.blowUp = reject.bind({}, "fail");
 
+		setTimeout(resolve.bind({}, true), 0);
 		new XBomb("OK", .01);
-		setTimeout(resolve.bind({}, true), 30);
 	},
 
 	"message": function (resolve) {
@@ -19,9 +19,9 @@
 		XBomb.prototype = Object.create(Bomb.prototype);
 
 		XBomb.prototype.blowUp = function () {
-			resolve(["OK", this.message]);
+			resolve(["Wow!", this.message]);
 		};
 
-		new XBomb("OK", .01);
+		new XBomb("Wow!", .01);
 	}
 })
