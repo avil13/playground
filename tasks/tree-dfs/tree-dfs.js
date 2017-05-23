@@ -13,11 +13,7 @@ var inputTree = {
 };
 
 function walk(tree) {
-	function walker(node) {
-		return [node.value].concat([].concat(node.children).map(walker));
-	}
-
-	return walker(tree);
+	// Код
 }
 
 console.log("result:", walk(inputTree));
