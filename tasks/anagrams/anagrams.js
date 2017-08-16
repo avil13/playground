@@ -13,7 +13,7 @@ const inputList = [
 ];
 
 // Проверка (лучше смотреть в консоль)
-console.log(JSON.stringify(getAnagrams(inputList), null, 2));
+console.log(getAnagrams(inputList));
 // [
 //   ['кот', 'ток'],
 //   ['барокко', 'коробка'],
