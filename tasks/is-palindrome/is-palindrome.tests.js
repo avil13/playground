@@ -13,5 +13,5 @@
 
 	"isPalindrome('...')": function () {
 		return [isPalindrome('A man a plan a canal Panama'), true];
-	},
+	}
 })
