@@ -12,5 +12,6 @@
 function isIsomorphic(left, right) {
 }
 
-isIsomorphic('egg', 'add'); // true
-isIsomorphic('paper', 'title'); // true
+console.log('egg -> add:', isIsomorphic('egg', 'add')); // true
+console.log('paper -> title:', isIsomorphic('paper', 'title')); // true
+
