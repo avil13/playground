@@ -7,7 +7,7 @@
 function getCategoriesAsHTML(inputData) {
 }
 
-const container = document.getElementById('result-container');
+var container = document.getElementById('result-container');
 
 container.innerHTML = getCategoriesAsHTML(getInputData());
 // <ul>

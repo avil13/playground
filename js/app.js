@@ -1,7 +1,6 @@
 define(function (require) {
 	require('ace');
 
-
 	var $ = require('jquery');
 	var output = require('output');
 	var testSuite = require('testSuite');

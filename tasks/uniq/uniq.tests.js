@@ -1,5 +1,5 @@
 ({
-	"uniq(input)": function () {
-		return [uniq(input), [2, 3, 1, 5, 6, 8]];
+	"uniq(...)": function () {
+		return [uniq([1, 2, 1, 2, 3]), [1, 2, 3]];
 	}
 })
