@@ -42,17 +42,20 @@ define(function (require) {
 
 
 	output.log = function () {
-		var text = $.map(arguments, function (val) {
-			return val && val.nodeType
-				? ('&lt;' + val.nodeName.toLowerCase() + '/&gt;')
-				: (val === void 0
-					? "undefined"
-					: JSON.stringify(val)
-				)
-			;
-		}).join(' ');
+		try {
+			var text = $.map(arguments, function (val) {
+				return val && val.nodeType
+					? ('&lt;' + val.nodeName.toLowerCase() + '/&gt;')
+					: (val === void 0
+							? "undefined"
+							: JSON.stringify(val)
+					)
+					;
+			}).join(' ');
 
-		this.append('div', { text: text, className: 'log' });
+			this.append('div', {text: text, className: 'log'});
+		} catch (err) {}
+
 		console.log.apply(console, arguments);
 	};
 
