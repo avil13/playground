@@ -138,4 +138,5 @@ body > .showHtml {
 	z-index: 100000;
 	position: absolute;
 	background: #f0f0ac;
+	display: none;
 }
