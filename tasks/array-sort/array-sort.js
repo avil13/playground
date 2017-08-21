@@ -4,7 +4,6 @@
  * @returns {any[]}
  */
 function sort(values) {
-	return values.sort()
 }
 
-console.log(sort([2, 3, 1, 4, 5, 7, 6])); // [-1, 1, 2, 3, 4, 5, 7, 99]
+console.log(sort([7, 2, 99, 5, 1, 3, 4, -1])); // [-1, 1, 2, 3, 4, 5, 7, 99]
