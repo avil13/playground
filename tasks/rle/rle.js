@@ -1,5 +1,5 @@
 /**
- * Реализовать RLE-сжатие
+ * Реализовать RLE-сжатие: AAAB -> A3B, BCCDDDAXXXX -> BC2D3X4
  * @param  {string} value
  * @return {string}
  */
