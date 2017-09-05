@@ -18,5 +18,5 @@ tree.remove(3);
 console.log('3:', tree.has(3)); // false
 console.log('2.5:', tree.has(2.5)); // true
 
-console.log('size:', tree.size()); // 4
+console.log('size:', tree.size()); // 5
 console.log('toArray:', tree.toArray()); // [1, 2, 2.5, 4, 5]
