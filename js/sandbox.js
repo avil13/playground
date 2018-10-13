@@ -114,13 +114,14 @@ define(function (require) {
 				document.write('<script src="' + require.toUrl('jquery.js').split('?')[0] +'"></script>');
 
 				// Публикуем код
-				document.write('<script>' + code + '</script>');
 				document.write('</head>');
 
 				document.close();
 			} catch (err) {
 				console.warn(err);
 			}
+
+			this.eval(this.code)
 		},
 
 		eval: function (code) {
