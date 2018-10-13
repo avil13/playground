@@ -121,7 +121,7 @@ define(function (require) {
 				console.warn(err);
 			}
 
-			this.eval(this.code)
+			this.window.eval(this.code);
 		},
 
 		eval: function (code) {
