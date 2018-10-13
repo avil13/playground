@@ -15,16 +15,19 @@ define(function (require) {
 
 	Sandbox.prototype = {
 		reset: function (parent) {
-			if (this.el && this.el.parentNode) {
-				this.el.parentNode.removeChild(this.el);
+			if (this.hostEl) {
+				this.hostEl.parentNode.removeChild(this.hostEl);
+				this.hostEl = null;
 			}
 
 			var sandbox = (this.el = document.createElement('iframe'));
 
 			parent = parent || document.body;
 
-			parent.appendChild(sandbox);
-			parent.appendChild($('<a class="showHtml"></a>')[0]);
+			this.hostEl = document.createElement('div');
+			this.hostEl.appendChild(sandbox);
+			this.hostEl.appendChild($('<a class="showHtml"></a>')[0]);
+			parent.appendChild(this.hostEl)
 
 
 			this.window = sandbox.contentWindow;
@@ -94,6 +97,7 @@ define(function (require) {
 				});
 
 				document.open();
+				document.write('<head>');
 
 				// Вставляем HTML
 				html && document.write(html);
@@ -111,9 +115,12 @@ define(function (require) {
 
 				// Публикуем код
 				document.write('<script>' + code + '</script>');
+				document.write('</head>');
 
 				document.close();
-			} catch (err) {}
+			} catch (err) {
+				console.warn(err);
+			}
 		},
 
 		eval: function (code) {
