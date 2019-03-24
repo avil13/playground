@@ -162,5 +162,9 @@
 
 	"constructor": {
 		"name": "Экземпляр класса и массив аргументов"
-	}
+	},
+
+	"react-vs-iframe": {
+		"name": "React vs. IFrame"
+	},
 }
