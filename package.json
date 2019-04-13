@@ -1,0 +1,26 @@
+{
+  "name": "avil13-playground",
+  "version": "1.0.0",
+  "description": "Playground ---------- JavaScript puzzles for the little ones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avil13/playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avil13/playground/issues"
+  },
+  "homepage": "https://github.com/avil13/playground#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-prettier": "^3.0.1"
+  }
+}
