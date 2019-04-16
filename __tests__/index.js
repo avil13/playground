@@ -4,7 +4,8 @@ const reader = require('./reader');
 const Run = require('./run-vm');
 
 const FOLDERS = [
-    'a-lt-a'
+    // 'a-lt-a',
+    'anagrams',
 ];
 
 
