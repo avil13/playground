@@ -10,11 +10,11 @@ function logger(name, value) {
     const _off = '\x1b[0m';
 
     let _val = value;
-    let _desc = ''; // full description if error
+    let _desc = s(value); // full description if error
 
     if (Array.isArray(value)) {
-        _val = value[0] === value[1];
-        _desc = `${value[0]} - ${value[1]}`
+        _val = s(value[0]) === s(value[1]);
+        _desc = `\n-${s(value[0])} \n-${s(value[1])}`
     }
 
     console.log([
@@ -23,4 +23,8 @@ function logger(name, value) {
         (_val || _val + _white + ' ' + _desc),
         _off
     ].join(' '));
+}
+
+function s(val) {
+    return JSON.stringify(val, null, 0);
 }
