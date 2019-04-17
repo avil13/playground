@@ -5,6 +5,7 @@ module.exports = runTest;
 
 const state = {
     name: '',
+    file: '',
     result: null,
     list: []
 };
@@ -12,8 +13,9 @@ const state = {
 /**
  * Test runner
  */
-function runTest(testName, testResult) {
+function runTest({ testFile,  testName, testResult }) {
     state.name = testName;
+    state.file = testFile;
 
     for (let key in testResult) {
         if (testResult.hasOwnProperty(key)) {

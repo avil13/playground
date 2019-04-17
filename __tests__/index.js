@@ -4,24 +4,30 @@ const reader = require('./reader');
 const Run = require('./run-vm');
 
 const FOLDERS = [
-    'a-lt-a',
-    'anagrams',
-    'argument',
-    'array-missing',
+    // 'a-lt-a',
+    // 'anagrams',
+    // 'argument',
+    // 'array-missing',
+    'array-sort',
 ];
 
 
 // test
 FOLDERS.forEach((folder) => {
     const pathFolder = path.join(__dirname, '../tasks', folder);
-    const res = reader(pathFolder);
 
-    const r = new Run();
-    let c;
+    reader(pathFolder, (data) => {
+        const runner = new Run();
+        let c;
 
-    c = r.add(res.source.src);
-    c = r.add(res.solution.src);
-    c = r.add(res.testSrc.src);
+        c = runner.add(data.source.src);
+        c = runner.add(data.solution.src);
+        c = runner.add(data.testSrc.src);
 
-    runTest(folder, c._code);
+        runTest({
+            testFile: path.join(folder, data.solution.path),
+            testName: folder,
+            testResult: c._code
+        });
+    });
 });

@@ -57,7 +57,13 @@ function logger(name, state) {
  * @param {*} state
  */
 function logState(state) {
-    console.log(`\n${state.result ? _greenBg : _redBg} ${state.name} ${_off}`);
+    console.log('');
+
+    console.log(`${state.result ? _greenBg : _redBg} ${state.name} ${_off}`);
+
+    if (state.result === false) {
+        console.log(`${_red}${state.file}${_off}`);
+    }
 
     state.list.forEach(v => {
         console.log(v);
