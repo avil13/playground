@@ -14,7 +14,7 @@ function logger(name, value) {
 
     if (Array.isArray(value)) {
         _val = s(value[0]) === s(value[1]);
-        _desc = `\n-${s(value[0])} \n-${s(value[1])}`
+        _desc = `\n${_red}⇒${_off} ${s(value[0])} \n${_green}⇒${_off} ${s(value[1])}`
     }
 
     console.log([
