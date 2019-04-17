@@ -6,7 +6,8 @@ const Run = require('./run-vm');
 const FOLDERS = [
     // 'a-lt-a',
     // 'anagrams',
-    'argument',
+    // 'argument',
+    'array-missing',
 ];
 
 
