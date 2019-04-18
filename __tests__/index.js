@@ -9,7 +9,8 @@ const FOLDERS = [
     // 'argument',
     // 'array-missing',
     // 'array-sort',
-    'array.size',
+    // 'array.size',
+    'async-pause',
 ];
 
 

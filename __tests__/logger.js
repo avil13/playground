@@ -25,7 +25,7 @@ const _right = '\x1b[30G'
  */
 function logger(name, state) {
     // обнулем стейт
-    state.result = true;
+    state.result = false;
     state.list = [];
 
     return function loggerChild(value) {
@@ -44,9 +44,7 @@ function logger(name, state) {
             _off
         ].join(' '));
 
-        if (!_val) {
-            state.result = false;
-        }
+        state.result = !!_val || false;
     }
 }
 

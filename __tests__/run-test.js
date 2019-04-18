@@ -6,7 +6,7 @@ module.exports = runTest;
 const state = {
     name: '',
     file: '',
-    result: null,
+    result: false,
     list: []
 };
 
