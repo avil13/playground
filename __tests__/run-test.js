@@ -22,13 +22,9 @@ function runTest({ testFile, testName, testResult }) {
             const log = logger(key, state);
             const result = testResult[key](log);
 
-            switch (typeof result) {
-                case 'boolean':
-                case 'object':
-                    log(result);
-                    break;
+            if (!(result instanceof Promise)) {
+                log(result);
             }
-
         }
     }
 

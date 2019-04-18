@@ -31,7 +31,7 @@ function logger(testName, state) {
 
     return function loggerChild(value) {
         let _val = value;
-        let _desc = s(value); // full description if error
+        let _desc = `\n${_red}⇒${_off} ${s(value)}`; // full description if error
 
         if (Array.isArray(value)) {
             _val = s(value[0]) === s(value[1]);
@@ -39,9 +39,10 @@ function logger(testName, state) {
         }
 
         state.list.push([
-            (_cyan + testName + '\t'),
-            (_val ? _green : _red),
-            _right + (_val || _val + ' ' + _desc),
+            (_cyan + testName),
+            (_val === true ? _green : _red),
+            _right,
+            (_val === true || 'false ' + _desc),
             _off
         ].join(' '));
 
@@ -81,5 +82,8 @@ function logState(state) {
  * @param {*} val
  */
 function s(val) {
+    if (typeof val === 'function') {
+        return val.toString();
+    }
     return JSON.stringify(val, null, 0);
 }
