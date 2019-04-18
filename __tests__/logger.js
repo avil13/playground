@@ -13,7 +13,7 @@ const _redBg = '\x1b[41m';
 const _cyan = '\x1b[0;36m';
 const _white = '\x1b[0;37m';
 const _off = '\x1b[0m';
-const _right = '\x1b[40G'
+const _right = '\x1b[30G'
 
 
 /**
@@ -57,13 +57,11 @@ function logger(name, state) {
  * @param {*} state
  */
 function logState(state) {
-    console.log('');
-
-    console.log(`${state.result ? _greenBg : _redBg} ${state.name} ${_off}`);
-
-    if (state.result === false) {
-        console.log(`${_red}${state.file}${_off}`);
-    }
+    console.log(
+        '\n' +
+        `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
+        `${state.result ? _green : _red} ${state.file} ${_off}`
+    );
 
     state.list.forEach(v => {
         console.log(v);
