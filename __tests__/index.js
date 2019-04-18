@@ -12,7 +12,8 @@ const FOLDERS = [
     // 'array.size',
     // 'async-pause',
     // 'async-reduce',
-    'attr-accessor',
+    // 'attr-accessor',
+    'binary-tree',
 ];
 
 
