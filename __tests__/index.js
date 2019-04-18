@@ -4,12 +4,12 @@ const reader = require('./reader');
 const Run = require('./run-vm');
 
 const FOLDERS = [
-    // 'a-lt-a',
-    // 'anagrams',
-    // 'argument',
-    // 'array-missing',
-    // 'array-sort',
-    // 'array.size',
+    'a-lt-a',
+    'anagrams',
+    'argument',
+    'array-missing',
+    'array-sort',
+    'array.size',
     'async-pause',
 ];
 

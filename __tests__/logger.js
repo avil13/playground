@@ -27,8 +27,7 @@ function logger(testName, state) {
 
     // обнулем стейт
     state.result = false;
-    state.hasResult = false;
-    state.list = [];
+    ++state.waiting;
 
     return function loggerChild(value) {
         let _val = value;
@@ -42,12 +41,12 @@ function logger(testName, state) {
         state.list.push([
             (_cyan + testName + '\t'),
             (_val ? _green : _red),
-            _right + (_val || _val + _white + ' ' + _desc),
+            _right + (_val || _val + ' ' + _desc),
             _off
         ].join(' '));
 
         state.result = !!_val || false;
-        state.hasResult = true;
+        state.waiting--;
     }
 }
 
@@ -58,7 +57,7 @@ function logger(testName, state) {
  * @param {*} state
  */
 function logState(state) {
-    if (state.hasResult) {
+    if (state.waiting < 1) {
         console.log(
             '\n' +
             `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
@@ -70,7 +69,7 @@ function logState(state) {
         });
     } else {
         setTimeout(function() {
-            state.hasResult = true; // что бы не уйти в цикл
+            --state.waiting; // что бы не уйти в цикл
             logState(state);
         }, 700);
     }

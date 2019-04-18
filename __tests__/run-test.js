@@ -8,16 +8,16 @@ module.exports = runTest;
  * Test runner
  */
 function runTest({ testFile, testName, testResult }) {
+    const state = {
+        name: testName,
+        file: testFile,
+        result: false,
+        list: [],
+        waiting: 0 // для проверки промисов
+    };
 
     for (let key in testResult) {
         if (testResult.hasOwnProperty(key)) {
-            const state = {
-                name: testName,
-                file: testFile,
-                result: false,
-                list: [],
-                hasResult: false // для проверки промисов
-            };
 
             const log = logger(key, state);
             const result = testResult[key](log);
@@ -29,7 +29,8 @@ function runTest({ testFile, testName, testResult }) {
                     break;
             }
 
-            logState(state);
         }
     }
+
+    logState(state);
 }
