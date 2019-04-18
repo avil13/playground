@@ -9,7 +9,10 @@ function Run() {
     if (!(this instanceof Run)) {
         return new Run();
     }
-    this.sandbox = {};
+    this.sandbox = {
+        setTimeout // для песочницы
+    };
+
     vm.createContext(this.sandbox);
 }
 

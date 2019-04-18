@@ -19,13 +19,15 @@ const _right = '\x1b[30G'
 /**
  * Функция для логирования результатов теста
  *
- * @param {string} name ключ - описание теста
+ * @param {string} testName ключ - описание теста
  * @param {object} state объект родителя, для отправки статуса теста
  * @returns {function}
  */
-function logger(name, state) {
+function logger(testName, state) {
+
     // обнулем стейт
     state.result = false;
+    state.hasResult = false;
     state.list = [];
 
     return function loggerChild(value) {
@@ -38,13 +40,14 @@ function logger(name, state) {
         }
 
         state.list.push([
-            (_cyan + name + '\t'),
+            (_cyan + testName + '\t'),
             (_val ? _green : _red),
             _right + (_val || _val + _white + ' ' + _desc),
             _off
         ].join(' '));
 
         state.result = !!_val || false;
+        state.hasResult = true;
     }
 }
 
@@ -55,15 +58,22 @@ function logger(name, state) {
  * @param {*} state
  */
 function logState(state) {
-    console.log(
-        '\n' +
-        `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
-        `${state.result ? _green : _red} ${state.file} ${_off}`
-    );
+    if (state.hasResult) {
+        console.log(
+            '\n' +
+            `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
+            `${state.result ? _green : _red} ${state.file} ${_off}`
+        );
 
-    state.list.forEach(v => {
-        console.log(v);
-    });
+        state.list.forEach(v => {
+            console.log(v);
+        });
+    } else {
+        setTimeout(function() {
+            state.hasResult = true; // что бы не уйти в цикл
+            logState(state);
+        }, 700);
+    }
 }
 
 /**
