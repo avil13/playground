@@ -8,7 +8,8 @@ const FOLDERS = [
     // 'anagrams',
     // 'argument',
     // 'array-missing',
-    'array-sort',
+    // 'array-sort',
+    'array.size',
 ];
 
 
