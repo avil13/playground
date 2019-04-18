@@ -16,7 +16,11 @@ function Run() {
     vm.createContext(this.sandbox);
 }
 
-Run.prototype.add = function(code) {
-    vm.runInContext(code, this.sandbox);
+Run.prototype.add = function (code) {
+    vm.runInContext(code, this.sandbox, {
+        timeout: 10000,
+        breakOnSigint: true,
+        displayErrors: true
+    });
     return this.sandbox;
 };

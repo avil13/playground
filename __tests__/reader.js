@@ -31,7 +31,10 @@ function readFolderWithSolution(dirPath, solutionFileName) {
     const codeLib = {
         source: {
             src: '',
-            ext: 'js'
+            ext: 'js',
+            wrap: (code) => {
+                return `try { ${code} } catch(e) {}`
+            }
         },
         testSrc: {
             src: '',
