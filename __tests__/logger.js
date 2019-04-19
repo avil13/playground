@@ -4,7 +4,6 @@ module.exports = {
 };
 
 
-
 // colors
 const _green = '\x1b[32m';
 const _red = '\x1b[31m';
@@ -13,7 +12,7 @@ const _redBg = '\x1b[41m';
 const _cyan = '\x1b[0;36m';
 const _white = '\x1b[0;37m';
 const _off = '\x1b[0m';
-const _right = '\x1b[30G'
+const _right = '\x1b[40G'
 
 
 /**

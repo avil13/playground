@@ -14,7 +14,8 @@ const FOLDERS = [
     // 'async-reduce',
     // 'attr-accessor',
     // 'binary-tree',
-    'bomb',
+    // 'bomb',
+    'calc',
 ];
 
 
