@@ -1,3 +1,5 @@
+//@skip-src
+
 function BinaryTree() {
     this._data = {};
 }

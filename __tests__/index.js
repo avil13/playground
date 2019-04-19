@@ -13,8 +13,8 @@ const FOLDERS = [
     // 'async-pause',
     // 'async-reduce',
     // 'attr-accessor',
-    'binary-tree',
-    // 'bomb',
+    // 'binary-tree',
+    'bomb',
 ];
 
 
@@ -33,7 +33,7 @@ FOLDERS.forEach((folder) => {
         runTest({
             testFile: path.join(folder, data.solution.path),
             testName: folder,
-            testResult: runner.run()._code
+            testResult: runner.run(data.tags)._code
         });
     });
 });
