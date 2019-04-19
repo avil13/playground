@@ -32,9 +32,9 @@ function readFolderWithSolution(dirPath, solutionFileName) {
         source: {
             src: '',
             ext: 'js',
-            wrap: (code) => {
-                return `try { ${code} } catch(e) {}`
-            }
+            // wrap: (code) => {
+            //     return ``
+            // }
         },
         testSrc: {
             src: '',

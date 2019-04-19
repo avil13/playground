@@ -24,10 +24,11 @@ const _right = '\x1b[30G'
  * @returns {function}
  */
 function logger(testName, state) {
-
     // обнулем стейт
     state.result = null;
-    ++state.waiting;
+
+    // этот тест еще не завершен
+    state.testMap[testName] = false;
 
     // ok test
     function resolve(value) {
@@ -47,7 +48,8 @@ function logger(testName, state) {
             _off
         ].join(' '));
 
-        state.waiting--;
+        state.testMap[testName] = true;
+
         state.result = ((res, val) => {
             switch (res) {
                 case null:
@@ -78,8 +80,8 @@ function logger(testName, state) {
  *
  * @param {*} state
  */
-function logState(state) {
-    if (state.waiting < 1) {
+function logState(state, isRunAgain = true) {
+    if (state.isEnd || isRunAgain === false) {
         console.log(
             '\n' +
             `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
@@ -91,16 +93,13 @@ function logState(state) {
         });
     } else {
         setTimeout(function () {
-            --state.waiting; // что бы не уйти в цикл
-            logState(state);
+            logState(state, false);
         }, 700);
     }
 }
 
 /**
  * Helper
- *
- * @param {*} val
  */
 function s(val) {
     if (typeof val === 'function') {

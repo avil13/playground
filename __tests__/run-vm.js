@@ -3,6 +3,7 @@ const vm = require('vm');
 module.exports = Run;
 
 const _vm = `\x1b[0;33m vm:\x1b[0m`;
+const _err = `\x1b[0;31m [Error]:\x1b[0m`;
 
 const consoleVm = {
     ...console,
@@ -35,18 +36,44 @@ function Run() {
     // песочница со ссылкой на текущий котекст
     // в некоторых объектах
     this.sandbox = {
+        _code: {},
         setTimeout,
         console: consoleVm
     };
+
+    this.code = '';
 
     vm.createContext(this.sandbox);
 }
 
 Run.prototype.add = function (code) {
-    vm.runInContext(code, this.sandbox, {
-        timeout: 10000,
-        breakOnSigint: true,
-        displayErrors: true
-    });
+    this.code += '\n\n' + code;
+    return this;
+};
+
+Run.prototype.run = function () {
+    // const code = `try { ${ this.code } } catch(e) { console.error(e) }`;
+    const code = this.code;
+
+    try {
+        vm.runInContext(code, this.sandbox, {
+            timeout: 10000,
+            breakOnSigint: true,
+            displayErrors: true
+        });
+    } catch(err) {
+        console.log(_err);
+        if (err.message && err.stack) {
+            console.error(err.message);
+            console.error(err.stack);
+        } else {
+            console.error(err);
+        }
+
+        if (process.env.NODE_ENV !== 'dev') {
+            process.exit(1);
+        }
+    }
+
     return this.sandbox;
 };

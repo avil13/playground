@@ -13,8 +13,8 @@ const FOLDERS = [
     // 'async-pause',
     // 'async-reduce',
     // 'attr-accessor',
-    // 'binary-tree',
-    'bomb',
+    'binary-tree',
+    // 'bomb',
 ];
 
 
@@ -24,16 +24,16 @@ FOLDERS.forEach((folder) => {
 
     reader(pathFolder, (data) => {
         const runner = new Run();
-        let c;
 
-        c = runner.add(data.source.src);
-        c = runner.add(data.solution.src);
-        c = runner.add(data.testSrc.src);
+        runner
+            .add(data.source.src)
+            .add(data.solution.src)
+            .add(data.testSrc.src);
 
         runTest({
             testFile: path.join(folder, data.solution.path),
             testName: folder,
-            testResult: c._code
+            testResult: runner.run()._code
         });
     });
 });
