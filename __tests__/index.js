@@ -4,19 +4,26 @@ const reader = require('./reader');
 const Run = require('./run-vm');
 
 const FOLDERS = [
-    // 'a-lt-a',
-    // 'anagrams',
-    // 'argument',
-    // 'array-missing',
-    // 'array-sort',
-    // 'array.size',
-    // 'async-pause',
-    // 'async-reduce',
-    // 'attr-accessor',
-    // 'binary-tree',
-    // 'bomb',
+    'a-lt-a',
+    'anagrams',
+    'argument',
+    'array-missing',
+    'array-sort',
+    'array.size',
+    'async-pause',
+    'async-reduce',
+    'attr-accessor',
+    'binary-tree',
+    'bomb',
     'calc',
-];
+    'class-name',
+].filter((f, i, arr) => {
+    // all or last on DEV mode
+    if (process.env.NODE_ENV !== 'dev') {
+        return true;
+    }
+    return i === arr.length -1;
+})
 
 
 // test
