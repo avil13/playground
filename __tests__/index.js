@@ -13,7 +13,8 @@ const FOLDERS = [
     // 'async-pause',
     // 'async-reduce',
     // 'attr-accessor',
-    'binary-tree',
+    // 'binary-tree',
+    'bomb',
 ];
 
 

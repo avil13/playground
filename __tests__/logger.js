@@ -26,10 +26,11 @@ const _right = '\x1b[30G'
 function logger(testName, state) {
 
     // обнулем стейт
-    state.result = false;
+    state.result = null;
     ++state.waiting;
 
-    return function loggerChild(value) {
+    // ok test
+    function resolve(value) {
         let _val = value;
         let _desc = `\n${_red}⇒${_off} ${s(value)}`; // full description if error
 
@@ -46,9 +47,29 @@ function logger(testName, state) {
             _off
         ].join(' '));
 
-        state.result = !!_val || false;
         state.waiting--;
+        state.result = ((res, val) => {
+            switch (res) {
+                case null:
+                case true:
+                    return val === true;
+                default:
+                    return false;
+            }
+        })(state.result, _val);
     }
+
+    // fail test
+    function reject(value) {
+        const res = value === false || value === 'fail';
+        resolve(res);
+    }
+
+
+    return {
+        resolve,
+        reject
+    };
 }
 
 
@@ -69,7 +90,7 @@ function logState(state) {
             console.log(v);
         });
     } else {
-        setTimeout(function() {
+        setTimeout(function () {
             --state.waiting; // что бы не уйти в цикл
             logState(state);
         }, 700);

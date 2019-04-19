@@ -19,11 +19,11 @@ function runTest({ testFile, testName, testResult }) {
     for (let key in testResult) {
         if (testResult.hasOwnProperty(key)) {
 
-            const log = logger(key, state);
-            const result = testResult[key](log);
+            const { resolve, reject } = logger(key, state);
+            const result = testResult[key](resolve, reject);
 
             if (!(result instanceof Promise)) {
-                log(result);
+                resolve(result);
             }
         }
     }
