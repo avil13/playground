@@ -17,13 +17,14 @@ const FOLDERS = [
     'bomb',
     'calc',
     'class-name',
+    'clicks',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
         return true;
     }
     return i === arr.length -1;
-})
+});
 
 
 // test
@@ -34,9 +35,10 @@ FOLDERS.forEach((folder) => {
         const runner = new Run();
 
         runner
-            .add(data.source.src)
-            .add(data.solution.src)
-            .add(data.testSrc.src);
+            .add('html', data.html.src)
+            .add('src', data.source.src)
+            .add('solution', data.solution.src)
+            .add('test', data.testSrc.src);
 
         runTest({
             testFile: path.join(folder, data.solution.path),

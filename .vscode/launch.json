@@ -8,7 +8,10 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/__tests__/index.js"
+            "program": "${workspaceFolder}/__tests__/index.js",
+            "env": {
+                "NODE_ENV": "dev"
+            }
         }
     ]
 }

@@ -4,8 +4,11 @@ module.exports = readFileTag;
  * метод возвращающий массив заголовочных тегов файла
  * теги созадются по приниципу //@tagName без пробелов
  *
+ * @param {string} src
+ * @param {array} tags
+ * @returns {array}
  */
-function readFileTag(src, tags = []) {
+function readFileTag(src, tags) {
     const lines = src.split('\n');
 
     for (let i = 0; i < lines.length; i++) {

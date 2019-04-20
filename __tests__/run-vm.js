@@ -1,4 +1,11 @@
 const vm = require('vm');
+const path = require('path');
+const load = require('./load-module-src')(path.join(__dirname, '..', 'node_modules'));
+
+const jsdom = require('jsdom');
+const {
+    JSDOM
+} = jsdom;
 
 module.exports = Run;
 
@@ -34,27 +41,55 @@ function Run() {
     if (!(this instanceof Run)) {
         return new Run();
     }
+
     // песочница со ссылкой на текущий котекст
     // в некоторых объектах
     this.sandbox = {
-        _code: {},
         setTimeout,
-        console: consoleVm
+        require,
+        module,
+        exports,
+        console: consoleVm,
+        _code: {}, // данные возвращаемые тестами
+        isolate(callback) {
+            const res = callback();
+            return {
+                getResult() {
+                    return res;
+                }
+            }
+        }
     };
 
-    this.codes = [];
-
-    vm.createContext(this.sandbox);
+    this.codeMap = new Map();
 }
 
-Run.prototype.add = function (code) {
-    this.codes.push(code);
+Run.prototype.add = function (key, code) {
+    this.codeMap.set(key, code);
+
     return this;
 };
 
-Run.prototype.run = function (tags = []) {
-    // const code = `try { ${ this.code } } catch(e) { console.error(e) }`;
-    const code = wrapByTags(this.codes, tags);
+Run.prototype.run = function (tags) {
+
+    if (tags.includes('html')) {
+        const html = this.codeMap.get('html');
+        const dom = new JSDOM(html);
+        const window = dom.window; // переменаня нужна для simulate-event
+        const document = dom.window.document; // переменаня нужна для simulate-event
+
+        this.sandbox['window'] = window;
+        this.sandbox['document'] = document;
+
+        const se = load('simulate-event');
+
+        this.sandbox['simulateEvent'] = eval(se);
+    }
+
+    const code = wrapByTags(this.codeMap, tags);
+
+    // VM
+    vm.createContext(this.sandbox);
 
     try {
         vm.runInContext(code, this.sandbox, {
@@ -86,39 +121,45 @@ Run.prototype.run = function (tags = []) {
  * @param {*} src
  * @param {*} tag
  */
-function wrapByTags(codes = [], tags = []) {
+function wrapByTags(codeMap, tags = []) {
     // нет ни каких действий
-    if (tags.length === 0) {
-        return codes.join('\n\n');
-    }
-
-    let code = '';
-
     tags.forEach(tag => {
+        console.log(_tag, tag);
         switch (tag) {
             case 'try-all': // оборачиваем весь код в try catch
-                console.log(_tag, tag);
-                code = `try {${ codes.join('\n\n') } } catch(e) { console.error(e) }`;
+                codeMap.add('prefix', 'try {');
+                codeMap.add('suffix', ' } catch(e) { console.error(e) }');
                 break;
 
             case 'try-src':
-                console.log(_tag, tag);
-                code = codes.map((c, i) => {
-                    if (i === 0) {
-                        return `try {${ c } } catch(e) { }`
-                    }
-                    return c;
-                }).join('\n\n');
+                codeMap.add('prefixSrc', 'try {');
+                codeMap.add('suffixSrc', ' } catch(e) { console.error(e) }');
                 break;
 
             case 'skip-src':
-                console.log(_tag, tag);
-                code = codes.map((c, i) => {
-                    return (i === 0) ? '' : c;
-                }).join('\n\n');
+                codeMap.add('src', '');
                 break;
         }
     });
 
-    return code || codes.join('\n\n');
+    const code = [
+            codeMap.get('libs'),
+
+            codeMap.get('prefix'),
+
+            // codeMap.get('html'),
+
+            codeMap.get('prefixSrc'),
+            codeMap.get('src'),
+            codeMap.get('suffixSrc'),
+
+            codeMap.get('solution'),
+            codeMap.get('test'),
+
+            codeMap.get('suffix'),
+        ]
+        .filter(v => !!v)
+        .join('\n\n');
+
+    return code;
 }

@@ -28,12 +28,16 @@ function readFolderWithSolution(dirPath, solutionFileName) {
     const name = path.basename(dirPath);
 
     const codeLib = {
+        html: {
+            src: '',
+            ext: 'html',
+            // wrap: (code) => {
+            //     return '_html = `'+ code + '`;';
+            // }
+        },
         source: {
             src: '',
-            ext: 'js',
-            // wrap: (code) => {
-            //     return ``
-            // }
+            ext: 'js'
         },
         testSrc: {
             src: '',
