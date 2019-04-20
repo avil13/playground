@@ -8,7 +8,7 @@ function makeState(data) {
     return {
         name: data.testName,
         file: data.testFile,
-        result: false,
+        result: null,
         list: [],
         testMap: {}, // для проверки промисов
         get isEnd() {

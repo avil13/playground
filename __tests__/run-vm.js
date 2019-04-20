@@ -12,6 +12,9 @@ module.exports = Run;
 const _vm = `\x1b[0;33m vm:\x1b[0m`;
 const _err = `\x1b[0;31m [Error]:\x1b[0m`;
 const _tag = `\x1b[0;34m [tag]:\x1b[0m`;
+const skip = () => {
+    console.log(`${_tag} skip`);
+};
 
 const consoleVm = {
     ...console,
@@ -72,6 +75,14 @@ Run.prototype.add = function (key, code) {
 
 Run.prototype.run = function (tags) {
 
+    if (tags.includes('skip')) {
+        skip();
+        return {
+            _code: {}
+        };
+    }
+
+
     if (tags.includes('html')) {
         const html = this.codeMap.get('html');
         const dom = new JSDOM(html);
@@ -127,17 +138,17 @@ function wrapByTags(codeMap, tags = []) {
         console.log(_tag, tag);
         switch (tag) {
             case 'try-all': // оборачиваем весь код в try catch
-                codeMap.add('prefix', 'try {');
-                codeMap.add('suffix', ' } catch(e) { console.error(e) }');
+                codeMap.set('prefix', 'try {');
+                codeMap.set('suffix', ' } catch(e) { console.error(e) }');
                 break;
 
             case 'try-src':
-                codeMap.add('prefixSrc', 'try {');
-                codeMap.add('suffixSrc', ' } catch(e) { console.error(e) }');
+                codeMap.set('prefixSrc', 'try {');
+                codeMap.set('suffixSrc', ' } catch(e) { console.error(e) }');
                 break;
 
             case 'skip-src':
-                codeMap.add('src', '');
+                codeMap.set('src', '');
                 break;
         }
     });

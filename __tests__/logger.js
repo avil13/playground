@@ -7,8 +7,10 @@ module.exports = {
 // colors
 const _green = '\x1b[32m';
 const _red = '\x1b[31m';
+const _blue = '\x1b[34m';
 const _greenBg = '\x1b[42m';
 const _redBg = '\x1b[41m';
+const _blueBg = '\x1b[44m';
 const _cyan = '\x1b[0;36m';
 const _white = '\x1b[0;37m';
 const _off = '\x1b[0m';
@@ -81,11 +83,18 @@ function logger(testName, state) {
  */
 function logState(state, isRunAgain = true) {
     if (state.isEnd || isRunAgain === false) {
-        console.log(
-            '\n' +
-            `${state.result ? _greenBg : _redBg} ${state.name} ${_off}` +
-            `${state.result ? _green : _red} ${state.file} ${_off}`
-        );
+
+        let statusStr = '';
+
+        if (state.result === null) {
+            statusStr = `${_blueBg} ${state.name} ${_off} ${_blue} ${state.file} ${_off}`;
+        } else if (state.result === true) {
+            statusStr = `${_greenBg} ${state.name} ${_off} ${_green} ${state.file} ${_off}`;
+        } else {
+            statusStr = `${_redBg} ${state.name} ${_off} ${_red} ${state.file} ${_off}`;
+        }
+
+        console.log(statusStr);
 
         state.list.forEach(v => {
             console.log(v);

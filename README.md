@@ -24,6 +24,7 @@ JavaScript puzzles for the little ones.
 `//@try-src` | Оборачивает файл примера в  `try catch`
 `//@skip-src` | Не загружает файл примера
 `//@html` | в тесте используются window и document events
+`//@skip` | пропустить этот тест
 
 
 ---
