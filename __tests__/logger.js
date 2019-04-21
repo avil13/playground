@@ -5,18 +5,7 @@ module.exports = {
 
 
 // colors
-const _green = '\x1b[32m';
-const _red = '\x1b[31m';
-const _blue = '\x1b[34m';
-const _greenBg = '\x1b[42m';
-const _redBg = '\x1b[41m';
-const _blueBg = '\x1b[44m';
-const _cyan = '\x1b[0;36m';
-const _white = '\x1b[0;37m';
-const _gray = '\x1b[0;90m';
-const _off = '\x1b[0m';
-const _right = '\x1b[40G'
-
+const clc = require('./color');
 
 /**
  * Функция для логирования результатов теста
@@ -32,22 +21,23 @@ function logger(testName, state) {
     // этот тест еще не завершен
     state.testMap[testName] = false;
 
+
     // ok test
     function resolve(value) {
         let _val = value;
-        let _desc = `\n${_red}⇒${_off} ${s(value)}`; // full description if error
+        let _desc = clc.red('⇒', s(value)); // full description if error
 
         if (Array.isArray(value)) {
             _val = s(value[0]) === s(value[1]);
-            _desc = `\n${_red}⇒${_off} ${s(value[0])} \n${_green}⇒${_off} ${s(value[1])}`
+            _desc = clc.red('⇒', s(value[0])) +
+                '\n' +
+                clc.green('⇒', s(value[1]));
         }
 
         state.list.push([
-            (_cyan + testName),
-            (_val === true ? _green : _red),
-            _right,
-            (_val === true || 'false ' + _desc),
-            _off
+            clc.cyan(testName),
+            clc._right,
+            clc.greenOrRed(_val, _val === true || 'false ' + '\n' + _desc)
         ].join(' '));
 
         state.testMap[testName] = true;
@@ -63,6 +53,7 @@ function logger(testName, state) {
             }
         })(state.result, _val);
     }
+
 
     // fail test
     function reject(value) {
@@ -89,17 +80,15 @@ function logState(state, isRunAgain = true) {
         let statusStr = '';
 
         if (state.result === null) {
-            statusStr = `${_blueBg} ${state.name} ${_off} ${_blue} ${state.file} ${_off}`;
-        } else if (state.result === true) {
-            statusStr = `${_greenBg} ${state.name} ${_off} ${_green} ${state.file} ${_off}`;
+            statusStr = clc.blueBg(state.name, state.file);
         } else {
-            statusStr = `${_redBg} ${state.name} ${_off} ${_red} ${state.file} ${_off}`;
+            statusStr = clc.greenOrRedBg(state.result, state.name, state.file);
         }
 
         console.log(statusStr);
         console.log(state.list.join('\n'));
         console.log(
-            _gray + ''.padStart(45, '—') + _off
+            clc.gray(''.padStart(45, '—'))
         ); // test delimiter
     } else {
         setTimeout(function () {
