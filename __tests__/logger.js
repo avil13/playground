@@ -13,6 +13,7 @@ const _redBg = '\x1b[41m';
 const _blueBg = '\x1b[44m';
 const _cyan = '\x1b[0;36m';
 const _white = '\x1b[0;37m';
+const _gray = '\x1b[0;90m';
 const _off = '\x1b[0m';
 const _right = '\x1b[40G'
 
@@ -51,6 +52,7 @@ function logger(testName, state) {
 
         state.testMap[testName] = true;
 
+        // check, all test is good?
         state.result = ((res, val) => {
             switch (res) {
                 case null:
@@ -95,16 +97,17 @@ function logState(state, isRunAgain = true) {
         }
 
         console.log(statusStr);
-
-        state.list.forEach(v => {
-            console.log(v);
-        });
+        console.log(state.list.join('\n'));
+        console.log(
+            _gray + ''.padStart(45, '—') + _off
+        ); // test delimiter
     } else {
         setTimeout(function () {
             logState(state, false);
-        }, 700);
+        }, 1100);
     }
 }
+
 
 /**
  * Helper

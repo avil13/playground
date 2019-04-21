@@ -43,7 +43,7 @@ function readFolderWithSolution(dirPath, solutionFileName) {
             src: '',
             ext: 'tests.js',
             wrap: (code) => {
-                return `_code = ${code}`;
+                return `_testCode = ${code}`;
             }
         },
         solution: {

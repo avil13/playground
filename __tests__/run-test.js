@@ -1,5 +1,7 @@
-const logger = require('./logger').logger;
-const logState = require('./logger').logState;
+const {
+    logger,
+    logState
+} = require('./logger');
 
 module.exports = runTest;
 
@@ -28,8 +30,15 @@ function makeState(data) {
 /**
  * Test runner
  */
-function runTest({ testFile, testName, testResult }) {
-    const state = makeState({ testFile, testName });
+function runTest({
+    testFile,
+    testName,
+    testResult
+}) {
+    const state = makeState({
+        testFile,
+        testName
+    });
 
     for (let key in testResult) {
         if (testResult.hasOwnProperty(key)) {
@@ -39,10 +48,13 @@ function runTest({ testFile, testName, testResult }) {
                 reject
             } = logger(key, state);
 
-            const result = testResult[key](resolve, reject);
+            const res = testResult[key];
 
-            if (!(result instanceof Promise) && result !== undefined) {
-                resolve(result);
+            // resolve(res.result || res.resolve);
+            resolve(res.result || res.resolve);
+
+            if (res.reject !== null) {
+                reject(res.reject);
             }
         }
     }

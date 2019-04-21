@@ -19,6 +19,12 @@ const FOLDERS = [
     'class-name',
     'clicks',
     'constructor', // тут беда с описанием задачи
+    // 'deferred',
+    // 'delay',
+    // 'dropdown',
+    // 'dummy',
+    // 'extend',
+    'futures',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
@@ -33,7 +39,7 @@ FOLDERS.forEach((folder) => {
     const pathFolder = path.join(__dirname, '../tasks', folder);
 
     reader(pathFolder, (data) => {
-        const runner = new Run();
+        const runner = new Run(data.tags);
 
         runner
             .add('html', data.html.src)
@@ -41,10 +47,13 @@ FOLDERS.forEach((folder) => {
             .add('solution', data.solution.src)
             .add('test', data.testSrc.src);
 
-        runTest({
-            testFile: path.join(folder, data.solution.path),
-            testName: folder,
-            testResult: runner.run(data.tags)._code
+        runner.run((res) => {
+            runTest({
+                testFile: path.join(folder, data.solution.path),
+                testName: folder,
+                // testResult: res._testCode
+                testResult: res._result
+            });
         });
     });
 });
