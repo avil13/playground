@@ -217,10 +217,12 @@ function takeResults(tests) {
             results[key].result = fn.call(
                 null,
                 function resolve(value) {
-                    results[key].resolve = value;
+                    if (results[key].reject === null) {
+                        results[key].resolve = value;
+                    }
                 },
                 function reject(value) {
-                    if (!results[key].resolve) {
+                    if (results[key].resolve === null) {
                         results[key].reject = !(value === false || value === 'fail');
                     }
                 }

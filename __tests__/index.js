@@ -25,6 +25,8 @@ const FOLDERS = [
     // 'dummy',
     // 'extend',
     'futures',
+    // '', ...
+    'parallel',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
