@@ -19,7 +19,7 @@ const FOLDERS = [
     'class-name',
     'clicks',
     'constructor', // тут беда с описанием задачи
-    // 'deferred',
+    'deferred',
     // 'delay',
     // 'dropdown',
     // 'dummy',
