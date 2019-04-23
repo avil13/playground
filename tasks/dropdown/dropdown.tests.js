@@ -7,23 +7,23 @@
 		return new Dropdown(menu.cloneNode(true)) instanceof Dropdown;
 	},
 
-	"dd.toggle": function () {
-		var sandbox = isolate(function () {
-			var ctrl = dd.find('.js-ctrl');
-			var menu = dd.find('.js-menu');
-			var res = [];
+	// "dd.toggle": function () {
+	// 	var sandbox = isolate(function () {
+	// 		var ctrl = dd.find('.js-ctrl');
+	// 		var menu = dd.find('.js-menu');
+	// 		var res = [];
 
-			res.push(menu.offsetHeight > 0);
+	// 		res.push(menu.offsetHeight > 0);
 
-			simulateEvent(ctrl, 'click');
-			res.push(menu.offsetHeight > 0);
+	// 		simulateEvent(ctrl, 'click');
+	// 		res.push(menu.offsetHeight > 0);
 
-			simulateEvent(ctrl, 'click');
-			res.push(menu.offsetHeight > 0);
+	// 		simulateEvent(ctrl, 'click');
+	// 		res.push(menu.offsetHeight > 0);
 
-			return res;
-		});
+	// 		return res;
+	// 	});
 
-		return [[false, true, false], sandbox.getResult()];
-	}
+	// 	return [[false, true, false], sandbox.getResult()];
+	// }
 })

@@ -15,12 +15,8 @@ const clc = require('./color');
  * @returns {function}
  */
 function logger(testName, state) {
-    // обнулем стейт
-    state.result = null;
-
     // этот тест еще не завершен
     state.testMap[testName] = false;
-
 
     // ok test
     function resolve(value) {
@@ -34,12 +30,6 @@ function logger(testName, state) {
                 clc.green('⇒', s(value[1]));
         }
 
-        state.list.push([
-            clc.cyan(testName),
-            clc._right,
-            clc.greenOrRed(_val, _val === true || 'false ' + '\n' + _desc)
-        ].join(' '));
-
         state.testMap[testName] = true;
 
         // check, all test is good?
@@ -52,6 +42,16 @@ function logger(testName, state) {
                     return false;
             }
         })(state.result, _val);
+
+
+        state.list.push([
+            clc.cyan(testName),
+            clc._right,
+            clc.greenOrRed(
+                state.result,
+                _val === true || 'false ' + '\n' + _desc
+            )
+        ].join(' '));
     }
 
 
