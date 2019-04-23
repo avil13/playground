@@ -97,8 +97,16 @@ Run.prototype.run = function (callback) {
         this.sandbox['document'] = document;
 
         const se = load('simulate-event');
-
         this.sandbox['simulateEvent'] = eval(se);
+
+        // find ID and pass to variable
+        const ids = html.match(/id="([^"]+)/gm);
+        if (ids) {
+            ids.forEach(id => {
+                const name = id.replace('id="', '');
+                this.sandbox[name] = document.getElementById(name);
+            });
+        }
     }
 
     const code = wrapByTags.call(this, this.codeMap, this.tags);

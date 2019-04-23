@@ -21,8 +21,8 @@ const FOLDERS = [
     'constructor', // тут беда с описанием задачи
     'deferred',
     'delay',
-    // 'dropdown',
-    'dummy',
+    'dropdown',
+    // 'dummy',
     // 'extend',
     // 'futures',
     // '', ...
