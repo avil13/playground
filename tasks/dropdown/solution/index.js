@@ -1,5 +1,7 @@
 //@html
 //@skip-src
+//@hide-error-stack
+//@hide-error-message
 
 
 
@@ -17,20 +19,48 @@ Widget.prototype.find = function (selector) {
 /** @extends Widget */
 var Dropdown = function () {
     // Выполним родительский метод:
+
     // ...
-    // this.find('.js-ctrl').addEventListener('click', this.handleEvent);
+    if (typeof this.__proto__._super === 'function') {
+        this.__proto__._super.apply(this, arguments);
+    }
+    // end ...
+
+    this.find('.js-ctrl').addEventListener('click', this.handleEvent.bind(this));
 };
 
 // Тут наследуем Widget
 // ...
+function extend(subClass, superClass) {
+    subClass.prototype = Object.assign(
+        Object.create(superClass.prototype, {
+            constructor: {
+                value: superClass,
+                enumerable: false,
+                writable: true,
+                configurable: true
+            }
+        }),
+
+        superClass.prototype
+    );
+
+    Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass
+
+    subClass.prototype._super = superClass;
+}
+extend(Dropdown, Widget);
+// end ...
+
 
 Dropdown.prototype.handleEvent = function (evt) {
     this.toggle();
 };
 
 Dropdown.prototype.toggle = function () {
-    // var menu = this.find('.js-menu');
+    var menu = this.find('.js-menu');
     // нужно добавить или убрать класс `collapsed`
+    menu.classList.toggle('collapsed');
 };
 
 // Используем

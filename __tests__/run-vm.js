@@ -53,15 +53,7 @@ function Run(tags) {
         exports,
         console: consoleVm,
         _testCode: {}, // данные возвращаемые тестами
-        _result: {}, // результаты тестов
-        isolate(callback) {
-            const res = callback();
-            return {
-                getResult() {
-                    return res;
-                }
-            }
-        }
+        _result: {} // результаты тестов
     };
 
     this.codeMap = new Map();
@@ -80,7 +72,10 @@ Run.prototype.run = function (callback) {
     if (this.tags.includes('skip')) {
         this.usedTags.push('skip');
         logTags(this.usedTags);
-        callback({ _testCode: {}, _result: {} });
+        callback({
+            _testCode: {},
+            _result: {}
+        });
         return;
     }
 
@@ -99,6 +94,8 @@ Run.prototype.run = function (callback) {
         const se = load('simulate-event');
         this.sandbox['simulateEvent'] = eval(se);
 
+
+
         // find ID and pass to variable
         const ids = html.match(/id="([^"]+)/gm);
         if (ids) {
@@ -109,24 +106,37 @@ Run.prototype.run = function (callback) {
         }
     }
 
-    const code = wrapByTags.call(this, this.codeMap, this.tags);
+    const code = getCodeByTags.call(this, this.codeMap, this.tags);
 
     // VM
-    vm.createContext(this.sandbox);
-
     try {
+        vm.createContext(this.sandbox);
+
         vm.runInContext(code, this.sandbox, {
-            timeout: 5000,
+            timeout: 2000,
             breakOnSigint: true,
-            displayErrors: true
+            displayErrors: false
         });
     } catch (err) {
-        console.log(_err);
         if (err.message && err.stack) {
-            console.error(err.message);
-            console.error(err.stack);
+            if (this.tags.includes('hide-error-message')) {
+                this.usedTags.push('hide-error-message');
+            } else {
+                console.error(err.message);
+            }
+
+            if (this.tags.includes('hide-error-stack')) {
+                this.usedTags.push('hide-error-stack');
+            } else {
+                console.error(err.stack);
+            }
         } else {
-            console.error(err);
+            if (this.tags.includes('hide-error-message') || this.tags.includes('hide-error-stack')) {
+                this.usedTags.push('hide-error-message');
+                this.usedTags.push('hide-error-stack');
+            } else {
+                console.error(err);
+            }
         }
 
         if (process.env.NODE_ENV !== 'dev') {
@@ -156,7 +166,7 @@ function logTags(usedTags) {
  * @param {*} src
  * @param {*} tag
  */
-function wrapByTags(codeMap, tags = []) {
+function getCodeByTags(codeMap, tags = []) {
     // нет ни каких действий
     tags.forEach(tag => {
         switch (tag) {
@@ -180,6 +190,7 @@ function wrapByTags(codeMap, tags = []) {
     });
 
     codeMap.set('results', `_result=(${takeResults})(_testCode)`);
+    codeMap.set('isolate', `${isolate}`);
 
     const code = [
             codeMap.get('libs'),
@@ -191,6 +202,8 @@ function wrapByTags(codeMap, tags = []) {
             codeMap.get('prefixSrc'),
             codeMap.get('src'),
             codeMap.get('suffixSrc'),
+
+            codeMap.get('isolate'),
 
             codeMap.get('solution'),
             codeMap.get('test'),
@@ -239,4 +252,18 @@ function takeResults(tests) {
     }
 
     return results;
+}
+
+
+/**
+ * функция тестов внутри песочницы
+ *
+ */
+function isolate(callback) {
+    const res = callback();
+    return {
+        getResult() {
+            return res;
+        }
+    };
 }
