@@ -24,7 +24,8 @@ const FOLDERS = [
     'dropdown',
     'dummy',
     'extend',
-    // 'futures',
+    'futures',
+    'get-range',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {

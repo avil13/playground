@@ -47,6 +47,7 @@ function Run(tags) {
     // песочница со ссылкой на текущий котекст
     // в некоторых объектах
     this.sandbox = {
+        clearTimeout,
         setTimeout, // : function(fn, time, arg) { time = (time||1) / 10; setTimeout(fn, time, arg); },
         require,
         module,
