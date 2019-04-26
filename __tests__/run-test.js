@@ -1,31 +1,11 @@
 const {
     logger,
-    logState
+    logState,
+    makeState
 } = require('./logger');
 
 module.exports = runTest;
 
-
-function makeState(data) {
-    return {
-        name: data.testName,
-        file: data.testFile,
-        result: null,
-        list: [],
-        testMap: {}, // для проверки промисов
-        get isEnd() {
-            for (let k in this.testMap) {
-                if (this.testMap.hasOwnProperty(k)) {
-                    if (this.testMap[k] === false) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        },
-        set isEnd(v) {}
-    };
-}
 
 /**
  * Test runner
@@ -50,7 +30,6 @@ function runTest({
 
             const res = testResult[key];
 
-            // resolve(res.result || res.resolve);
             resolve(res.result || res.resolve);
 
             if (res.reject !== null) {

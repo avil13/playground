@@ -1,11 +1,42 @@
 module.exports = {
     logger,
-    logState
+    logState,
+    makeState
 };
 
 
 // colors
 const clc = require('./color');
+
+
+
+function makeState(data) {
+    if (!data.testName) {
+        throw 'makeState empty parametr "{ testName }"'
+    }
+    if (!data.testFile) {
+        throw 'makeState empty parametr "{ testFile }"'
+    }
+    return {
+        name: data.testName,
+        file: data.testFile,
+        result: null,
+        list: [],
+        testMap: {}, // для проверки промисов
+        get isEnd() {
+            for (let k in this.testMap) {
+                if (this.testMap.hasOwnProperty(k)) {
+                    if (this.testMap[k] === false) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        set isEnd(v) {}
+    };
+}
+
 
 /**
  * Функция для логирования результатов теста
