@@ -1,8 +1,5 @@
 //@html
 //@skip-src
-//@hide-error-stack
-//@hide-error-message
-
 
 
 /** @class Widget */

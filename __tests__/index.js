@@ -22,8 +22,8 @@ const FOLDERS = [
     'deferred',
     'delay',
     'dropdown',
-    // 'dummy',
-    // 'extend',
+    'dummy',
+    'extend',
     // 'futures',
     // '', ...
     // 'parallel',
