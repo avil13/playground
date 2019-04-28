@@ -26,6 +26,7 @@ const FOLDERS = [
     'extend',
     'futures',
     'get-range',
+    'graph',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
