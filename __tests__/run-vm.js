@@ -62,13 +62,32 @@ function Run(tags) {
 
 Run.prototype.add = function (key, code) {
     this.codeMap.set(key, code);
-
     return this;
 };
 
 Run.prototype.run = function (callback) {
     this.usedTags = [];
 
+    const {
+        isEnd,
+        code
+    } = processTags.call(this, callback);
+
+    if (isEnd === true) {
+        return;
+    }
+
+    // VM
+    runVm.call(this, code, callback);
+}
+
+/**
+ * Оработка тегов
+ *
+ * @param {Function} callback
+ * @returns
+ */
+function processTags(callback) {
     // skip this test
     if (this.tags.includes('skip')) {
         this.usedTags.push('skip');
@@ -77,7 +96,11 @@ Run.prototype.run = function (callback) {
             _testCode: {},
             _result: {}
         });
-        return;
+
+        return {
+            isEnd: true,
+            code: ''
+        };
     }
 
     // use HTML in script
@@ -109,7 +132,20 @@ Run.prototype.run = function (callback) {
 
     const code = getCodeByTags.call(this, this.codeMap, this.tags);
 
-    // VM
+    return {
+        isEnd: false,
+        code
+    };
+};
+
+
+/**
+ * Запуск Песочницы
+ *
+ * @param {String} code
+ * @param {Function} callback
+ */
+function runVm(code, callback) {
     try {
         vm.createContext(this.sandbox);
 
@@ -149,7 +185,7 @@ Run.prototype.run = function (callback) {
         logTags(this.usedTags);
         callback(this.sandbox, this.tags);
     }, 1100);
-};
+}
 
 
 function logTags(usedTags) {
@@ -164,8 +200,9 @@ function logTags(usedTags) {
 /**
  * обрабатываем код соглано указанным тегам
  *
- * @param {*} src
- * @param {*} tag
+ * @param {*} codeMap
+ * @param {Array} [tags=[]]
+ * @returns String
  */
 function getCodeByTags(codeMap, tags = []) {
     // нет ни каких действий
@@ -222,7 +259,6 @@ function getCodeByTags(codeMap, tags = []) {
 
 /**
  * функция для сбора результатов тестов внутри песочницы
- *
  */
 function takeResults(tests) {
     const results = {};
@@ -258,7 +294,6 @@ function takeResults(tests) {
 
 /**
  * функция тестов внутри песочницы
- *
  */
 function isolate(callback) {
     const res = callback();
