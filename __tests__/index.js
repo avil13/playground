@@ -39,6 +39,7 @@ const FOLDERS = [
     'get-range',
     'graph',
     'intersection',
+    'is-balanced',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
