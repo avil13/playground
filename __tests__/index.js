@@ -38,6 +38,7 @@ const FOLDERS = [
     'futures',
     'get-range',
     'graph',
+    'intersection',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
