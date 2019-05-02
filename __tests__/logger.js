@@ -1,13 +1,24 @@
 module.exports = {
     logger,
     logState,
-    makeState
+    makeState,
+    getAllTestLog
 };
 
 
 // colors
 const clc = require('./color');
 
+const allTestLog = {
+    files: 0,
+    success: 0,
+    failed: 0,
+    skip: 0
+};
+
+function getAllTestLog() {
+    return allTestLog;
+}
 
 
 function makeState(data) {
@@ -110,10 +121,14 @@ function logState(state, isRunAgain = true) {
 
         let statusStr = '';
 
+        ++allTestLog.files;
+
         if (state.result === null) {
             statusStr = clc.blueBg(state.name, state.file);
+            ++allTestLog.skip;
         } else {
             statusStr = clc.greenOrRedBg(state.result, state.name, state.file);
+            ++(allTestLog[state.result ? 'success' : 'failed']);
         }
 
         console.log(statusStr);

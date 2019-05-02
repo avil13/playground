@@ -3,6 +3,17 @@ const runTest = require('./run-test');
 const reader = require('./reader');
 const Run = require('./run-vm');
 
+const exitHandler = require('./exit-handler');
+const cliTable = require('./cli-table');
+const {
+    getAllTestLog
+} = require('./logger');
+
+
+exitHandler(function () {
+    cliTable(getAllTestLog());
+});
+
 const FOLDERS = [
     'a-lt-a',
     'anagrams',
@@ -34,7 +45,7 @@ const FOLDERS = [
     if (process.env.NODE_ENV !== 'dev') {
         return true;
     }
-    return i === arr.length -1;
+    return i === arr.length - 1;
 });
 
 
