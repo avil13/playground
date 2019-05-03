@@ -41,6 +41,7 @@ const FOLDERS = [
     'intersection',
     'is-balanced',
     'is-isomorphic',
+    'is-palindrome',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
