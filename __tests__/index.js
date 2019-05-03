@@ -42,6 +42,7 @@ const FOLDERS = [
     'is-balanced',
     'is-isomorphic',
     'is-palindrome',
+    'minmax',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
