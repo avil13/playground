@@ -40,6 +40,7 @@ const FOLDERS = [
     'graph',
     'intersection',
     'is-balanced',
+    'is-isomorphic',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
