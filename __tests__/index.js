@@ -43,6 +43,7 @@ const FOLDERS = [
     'is-isomorphic',
     'is-palindrome',
     'minmax',
+    'naturalnumber',
     // '', ...
     // 'parallel',
 ].filter((f, i, arr) => {
