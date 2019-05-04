@@ -48,6 +48,7 @@ const FOLDERS = [
     'parallel',
     'printnumbers',
     // '', ...
+    'regexp',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
