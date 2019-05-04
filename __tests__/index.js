@@ -44,8 +44,10 @@ const FOLDERS = [
     'is-palindrome',
     'minmax',
     'naturalnumber',
+    'nested-set',
+    'parallel',
+    'printnumbers',
     // '', ...
-    // 'parallel',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
