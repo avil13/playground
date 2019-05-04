@@ -2,6 +2,10 @@ const vm = require('vm');
 const path = require('path');
 const load = require('./load-module-src')(path.join(__dirname, '..', 'node_modules'));
 
+const {
+    performance
+} = require('perf_hooks');
+
 const jsdom = require('jsdom');
 const {
     JSDOM
@@ -49,6 +53,7 @@ function Run(tags) {
     this.sandbox = {
         clearTimeout,
         setTimeout, // : function(fn, time, arg) { time = (time||1) / 10; setTimeout(fn, time, arg); },
+        performance,
         require,
         module,
         exports,
@@ -60,7 +65,7 @@ function Run(tags) {
     this.codeMap = new Map();
 }
 
-Run.prototype.add = function (key, code) {
+Run.prototype.set = function (key, code) {
     this.codeMap.set(key, code);
     return this;
 };
@@ -73,12 +78,15 @@ Run.prototype.run = function (callback) {
         code
     } = processTags.call(this, callback);
 
-    if (isEnd === true) {
-        return;
+    // если теги не указали пропустить тест,
+    // то запускаем его в песочнице
+    if (isEnd === false) {
+        runVm.call(this, code, callback); // VM
     }
 
-    // VM
-    runVm.call(this, code, callback);
+    setTimeout(() => {
+        callback(this.sandbox, this.usedTags);
+    }, 1100);
 }
 
 /**
@@ -91,11 +99,6 @@ function processTags(callback) {
     // skip this test
     if (this.tags.includes('skip')) {
         this.usedTags.push('skip');
-        logTags(this.usedTags);
-        callback({
-            _testCode: {},
-            _result: {}
-        });
 
         return {
             isEnd: true,
@@ -143,14 +146,13 @@ function processTags(callback) {
  * Запуск Песочницы
  *
  * @param {String} code
- * @param {Function} callback
  */
-function runVm(code, callback) {
+function runVm(code) {
     try {
         vm.createContext(this.sandbox);
 
         vm.runInContext(code, this.sandbox, {
-            timeout: 2000,
+            timeout: 1500,
             breakOnSigint: true,
             displayErrors: false
         });
@@ -179,20 +181,6 @@ function runVm(code, callback) {
         if (process.env.NODE_ENV !== 'dev') {
             process.exit(1);
         }
-    }
-
-    setTimeout(() => {
-        logTags(this.usedTags);
-        callback(this.sandbox, this.tags);
-    }, 1100);
-}
-
-
-function logTags(usedTags) {
-    if (usedTags.length > 0) {
-        console.log(
-            usedTags.map(t => _tag + t).join('\n')
-        );
     }
 }
 
@@ -261,34 +249,53 @@ function getCodeByTags(codeMap, tags = []) {
  * функция для сбора результатов тестов внутри песочницы
  */
 function takeResults(tests) {
-    const results = {};
+    const resultOfTests = {};
 
     for (let key in tests) {
         if (tests.hasOwnProperty(key)) {
             const fn = tests[key];
-            results[key] = {
+
+            resultOfTests[key] = {
                 result: null,
                 resolve: null,
-                reject: null
+                reject: null,
+                time: 0,
+                timerStart() {
+                    this.time = performance.now();
+                },
+                timerEnd() {
+                    this.time = performance.now() - this.time;
+                    const len = `${parseInt(this.time)}`.length;
+                    this.time = this.time.toFixed(5 - len) + 'ms';
+                }
             };
 
-            results[key].result = fn.call(
+
+            resultOfTests[key].timerStart();
+
+            resultOfTests[key].result = fn.call(
                 null,
                 function resolve(value) {
-                    if (results[key].reject === null) {
-                        results[key].resolve = value;
+                    if (resultOfTests[key].reject === null) {
+                        resultOfTests[key].resolve = value;
+                        resultOfTests[key].timerEnd();
                     }
                 },
                 function reject(value) {
-                    if (results[key].resolve === null) {
-                        results[key].reject = !(value === false || value === 'fail');
+                    if (resultOfTests[key].resolve === null) {
+                        resultOfTests[key].reject = !(value === false || value === 'fail');
+                        resultOfTests[key].timerEnd();
                     }
                 }
             );
+
+            if (resultOfTests[key].result !== undefined) {
+                resultOfTests[key].timerEnd();
+            }
         }
     }
 
-    return results;
+    return resultOfTests;
 }
 
 

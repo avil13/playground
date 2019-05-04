@@ -63,17 +63,18 @@ FOLDERS.forEach((folder) => {
         const runner = new Run(data.tags);
 
         runner
-            .add('html', data.html.src)
-            .add('src', data.source.src)
-            .add('solution', data.solution.src)
-            .add('test', data.testSrc.src);
+            .set('html', data.html.src)
+            .set('src', data.source.src)
+            .set('solution', data.solution.src)
+            .set('test', data.testSrc.src);
 
-        runner.run((res) => {
+        runner.run((res, tags) => {
             runTest({
                 testFile: path.join(folder, data.solution.path),
                 testName: folder,
                 // testResult: res._testCode
-                testResult: res._result
+                testResult: res._result,
+                tags
             });
         });
     });

@@ -13,28 +13,22 @@ module.exports = runTest;
 function runTest({
     testFile,
     testName,
-    testResult
+    testResult,
+    tags
 }) {
     const state = makeState({
         testFile,
-        testName
+        testName,
+        tags
     });
 
     for (let key in testResult) {
         if (testResult.hasOwnProperty(key)) {
-
-            const {
-                resolve,
-                reject
-            } = logger(key, state);
-
             const res = testResult[key];
 
-            resolve(res.result || res.resolve);
+            const value = (res.result || res.resolve || res.reject);
 
-            if (res.reject !== null) {
-                reject(res.reject);
-            }
+            logger(key, state, value, res.time);
         }
     }
 

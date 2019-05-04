@@ -1,6 +1,7 @@
 module.exports = {
-    _green: '\x1b[32m',
     _red: '\x1b[31m',
+    _green: '\x1b[32m',
+    _yellow: '\x1b[33m',
     _blue: '\x1b[34m',
     _greenBg: '\x1b[42m',
     _redBg: '\x1b[41m',
@@ -8,7 +9,7 @@ module.exports = {
     _cyan: '\x1b[0;36m',
     _white: '\x1b[0;37m',
     _gray: '\x1b[0;90m',
-    _right: '\x1b[40G',
+    _right: '\x1b[46G',
     _off: '\x1b[0m',
 
     color(...args) {
@@ -59,6 +60,9 @@ module.exports = {
     },
     red(...args) {
         return this.color.apply(this, [this._red, ...args]);
+    },
+    yellow(...args) {
+        return this.color.apply(this, [this._yellow, ...args]);
     },
     blue(...args) {
         return this.color.apply(this, [this._blue, ...args]);
