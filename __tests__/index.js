@@ -47,10 +47,13 @@ const FOLDERS = [
     'nested-set',
     'parallel',
     'printnumbers',
-    // '', ...
+    // ...
     'regexp',
     'rle',
     'romannumbers',
+    'rpn',
+    'safehtml',
+    'sum',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
