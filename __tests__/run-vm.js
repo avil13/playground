@@ -283,7 +283,7 @@ function takeResults(tests) {
                 },
                 function reject(value) {
                     if (resultOfTests[key].resolve === null) {
-                        resultOfTests[key].reject = !(value === false || value === 'fail' || !value);
+                        resultOfTests[key].reject = !value || value === 'fail'; // !(value === false || value === 'fail' || !value);
                         resultOfTests[key].timerEnd();
                     }
                 }
