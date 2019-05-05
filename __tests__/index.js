@@ -57,6 +57,7 @@ const FOLDERS = [
     'uniq',
     'waterfall',
     'xmap',
+    'zsort',
 ].filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
