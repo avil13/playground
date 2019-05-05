@@ -1,3 +1,5 @@
+const clc = require('./color');
+
 module.exports = table;
 
 
@@ -8,6 +10,8 @@ function table(data) {
         valueMaxLength
     } = makeList(data);
 
+    const w = wrapColorByName;
+
     const prefix = '┌'.padEnd(nameMaxLength + 3, '─') + '┬' +
         '┐'.padStart(valueMaxLength + 3, '─');
     const suffix = '└'.padEnd(nameMaxLength + 3, '─') + '┴' +
@@ -15,8 +19,11 @@ function table(data) {
     const lines = [];
 
     list.forEach(item => {
-        lines.push('│ ' + item.name.padEnd(nameMaxLength) +
-            ' │ ' + ('' + item.value).padStart(valueMaxLength) +
+        const name = item.name;
+        const value = item.value + '';
+
+        lines.push('│ ' + w(name, name.padEnd(nameMaxLength)) +
+            ' │ ' + w(name, value.padStart(valueMaxLength)) +
             ' │');
     });
 
@@ -30,9 +37,6 @@ function table(data) {
         valueMaxLength
     };
 }
-
-
-
 
 
 function makeList(data) {
@@ -65,4 +69,21 @@ function makeList(data) {
         nameMaxLength,
         valueMaxLength
     };
+}
+
+
+function wrapColorByName(name, value = '') {
+    const maps = {
+        files: 'white',
+        success: 'green',
+        failed: 'red',
+        skip: 'blue'
+    };
+
+    const key = name.trim();
+
+    if (maps[key]) {
+        return clc[maps[key]](value || name);
+    }
+    return value || name;
 }
