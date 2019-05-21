@@ -16,7 +16,7 @@ exitHandler(function () {
     cliTable(getAllTestLog());
 });
 
-FOLDERS.filter((f, i, arr) => {
+const folders = FOLDERS.filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
         return true;
@@ -26,7 +26,7 @@ FOLDERS.filter((f, i, arr) => {
 
 
 // test
-FOLDERS.forEach((folder) => {
+folders.forEach((folder) => {
     const pathFolder = path.join(__dirname, '../tasks', folder);
 
     reader(pathFolder, (data) => {
