@@ -9,57 +9,14 @@ const {
     getAllTestLog
 } = require('./logger');
 
+const FOLDERS = require('./folders');
+
 
 exitHandler(function () {
     cliTable(getAllTestLog());
 });
 
-const FOLDERS = [
-    'a-lt-a',
-    'anagrams',
-    'argument',
-    'array-missing',
-    'array-sort',
-    'array.size',
-    'async-pause',
-    'async-reduce',
-    'attr-accessor',
-    'binary-tree',
-    'bomb',
-    'calc',
-    'class-name',
-    'clicks',
-    'constructor', // тут беда с описанием задачи
-    'deferred',
-    'delay',
-    'dropdown',
-    'dummy',
-    'extend',
-    'futures',
-    'get-range',
-    'graph',
-    'intersection',
-    'is-balanced',
-    'is-isomorphic',
-    'is-palindrome',
-    'minmax',
-    'naturalnumber',
-    'nested-set',
-    'parallel',
-    'printnumbers',
-    // react-vs-iframe ???
-    'regexp',
-    'rle',
-    'romannumbers',
-    'rpn',
-    'safehtml',
-    'sum',
-    'uniq',
-    'waterfall',
-    'xmap',
-    'zsort',
-    // ''
-].filter((f, i, arr) => {
+FOLDERS.filter((f, i, arr) => {
     // all or last on DEV mode
     if (process.env.NODE_ENV !== 'dev') {
         return true;
