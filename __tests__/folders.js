@@ -46,6 +46,7 @@ const FOLDERS = [
     'waterfall',
     'xmap',
     'zsort',
+    'number-func',
     // ''
 ];
 
