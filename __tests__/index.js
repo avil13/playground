@@ -9,7 +9,7 @@ const {
     getAllTestLog
 } = require('./logger');
 
-const FOLDERS = require('./folders');
+const FOLDERS = require('../folders');
 
 
 exitHandler(function () {

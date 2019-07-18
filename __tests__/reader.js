@@ -11,6 +11,11 @@ function reader(dirPath, callback) {
 
     fs.readdir(solutionDir, (err, files) => {
         if (err) {
+            if (err.errno === -2) {
+                console.log('No solution dir:', err.path);
+                return;
+            }
+
             throw err;
         }
         files.forEach(file => {
