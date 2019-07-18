@@ -47,6 +47,7 @@ const FOLDERS = [
     'xmap',
     'zsort',
     'number-func',
+    'zero-summator',
     // ''
 ];
 
